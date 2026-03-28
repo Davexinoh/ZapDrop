@@ -1,9 +1,3 @@
-/**
- * components/Navbar.jsx
- * ─────────────────────────────────────────────────────────────────
- * Starknet-style sticky nav — blur backdrop, orange accent, Syne type.
- */
-
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { shortAddr } from '../lib/zaplink'
@@ -11,56 +5,73 @@ import { shortAddr } from '../lib/zaplink'
 export default function Navbar({ address, onLogin, onLogout, isLoading }) {
   return (
     <nav style={{
-      position:       'sticky',
-      top:            0,
-      zIndex:         200,
-      borderBottom:   '1px solid var(--border-subtle)',
-      background:     'rgba(9,9,15,0.80)',
-      backdropFilter: 'blur(20px)',
-      WebkitBackdropFilter: 'blur(20px)',
+      position:             'sticky',
+      top:                  0,
+      zIndex:               200,
+      borderBottom:         '1px solid rgba(255,77,0,0.12)',
+      background:           'rgba(8,8,15,0.82)',
+      backdropFilter:       'blur(24px)',
+      WebkitBackdropFilter: 'blur(24px)',
     }}>
+      {/* Orange glow line at very top */}
+      <div style={{
+        position:   'absolute',
+        top:        0, left: 0, right: 0,
+        height:     '1px',
+        background: 'linear-gradient(90deg,transparent,rgba(255,107,0,0.6),rgba(255,184,0,0.4),transparent)',
+      }}/>
+
       <div style={{
         maxWidth:       960,
         margin:         '0 auto',
         padding:        '0 24px',
-        height:         60,
+        height:         62,
         display:        'flex',
         alignItems:     'center',
         justifyContent: 'space-between',
       }}>
 
         {/* ── Logo ── */}
-        <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-          {/* Lightning icon — SVG so no hosting needed */}
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <rect width="28" height="28" rx="8" fill="url(#navgrad)" />
-            <path d="M16 4L9 15.5H14L12 24L20 12.5H15L16 4Z" fill="white" />
-            <defs>
-              <linearGradient id="navgrad" x1="0" y1="0" x2="28" y2="28">
-                <stop offset="0%" stopColor="#FF5C1A" />
-                <stop offset="100%" stopColor="#FF8C00" />
-              </linearGradient>
-            </defs>
-          </svg>
+        <Link to="/" style={{ textDecoration:'none', display:'flex', alignItems:'center', gap:10 }}>
+          {/* Flame+lightning circle logo */}
+          <div style={{
+            width:        36,
+            height:       36,
+            borderRadius: '50%',
+            overflow:     'hidden',
+            flexShrink:   0,
+            boxShadow:    '0 0 16px rgba(255,100,0,0.5), 0 0 4px rgba(255,180,0,0.3)',
+            border:       '1px solid rgba(255,120,0,0.35)',
+          }}>
+            <img src="/ZapDrop/logo.svg" alt="ZapDrop" width={36} height={36} style={{ display:'block' }} />
+          </div>
+
+          {/* Wordmark */}
           <span style={{
             fontFamily:    'var(--font-display)',
             fontWeight:    800,
-            fontSize:      '1.1rem',
+            fontSize:      '1.15rem',
+            letterSpacing: '-0.025em',
             color:         'var(--text-100)',
-            letterSpacing: '-0.02em',
           }}>
-            Zap<span style={{ color: 'var(--orange)' }}>Drop</span>
+            Zap<span style={{
+              background:             'linear-gradient(135deg,#FF4D00,#FFB800)',
+              WebkitBackgroundClip:   'text',
+              WebkitTextFillColor:    'transparent',
+              backgroundClip:         'text',
+            }}>Drop</span>
           </span>
-          {/* Testnet pill */}
+
+          {/* Sepolia pill */}
           <span style={{
             fontFamily:    'var(--font-display)',
-            fontSize:      '0.6rem',
+            fontSize:      '0.58rem',
             fontWeight:    700,
-            letterSpacing: '0.07em',
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color:         'var(--orange-bright)',
-            background:    'var(--orange-glow)',
-            border:        '1px solid var(--border-orange)',
+            color:         '#FF8C00',
+            background:    'rgba(255,77,0,0.10)',
+            border:        '1px solid rgba(255,77,0,0.25)',
             borderRadius:  'var(--r-full)',
             padding:       '2px 8px',
           }}>
@@ -68,32 +79,30 @@ export default function Navbar({ address, onLogin, onLogout, isLoading }) {
           </span>
         </Link>
 
-        {/* ── Right ── */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* ── Right side ── */}
+        <div style={{ display:'flex', alignItems:'center', gap:8 }}>
           {address ? (
             <>
-              {/* Address chip */}
               <div style={{
                 display:      'flex',
                 alignItems:   'center',
-                gap:          6,
+                gap:          7,
                 background:   'var(--bg-raised)',
-                border:       '1px solid var(--border-default)',
+                border:       '1px solid var(--border-2)',
                 borderRadius: 'var(--r-full)',
-                padding:      '5px 12px 5px 8px',
+                padding:      '5px 13px 5px 8px',
               }}>
-                {/* Green dot */}
                 <span style={{
-                  width: 7, height: 7,
+                  width:        7, height: 7,
                   borderRadius: '50%',
-                  background: '#34d399',
-                  boxShadow: '0 0 6px #34d399',
-                  flexShrink: 0,
-                }} />
+                  background:   '#34d399',
+                  boxShadow:    '0 0 8px #34d399',
+                  flexShrink:   0,
+                }}/>
                 <span style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize:   '0.78rem',
-                  color:      'var(--text-300)',
+                  fontFamily:    'var(--font-body)',
+                  fontSize:      '0.78rem',
+                  color:         'var(--text-300)',
                   letterSpacing: '0.01em',
                 }}>
                   {shortAddr(address)}
@@ -102,7 +111,7 @@ export default function Navbar({ address, onLogin, onLogout, isLoading }) {
               <button
                 className="btn btn-ghost"
                 onClick={onLogout}
-                style={{ fontSize: '0.78rem', padding: '7px 14px' }}
+                style={{ fontSize:'0.78rem', padding:'7px 14px' }}
               >
                 Disconnect
               </button>
@@ -112,11 +121,12 @@ export default function Navbar({ address, onLogin, onLogout, isLoading }) {
               className="btn btn-primary"
               onClick={onLogin}
               disabled={isLoading}
-              style={{ fontSize: '0.85rem', padding: '9px 22px' }}
+              style={{ fontSize:'0.85rem', padding:'9px 22px' }}
             >
               {isLoading
-                ? <span className="spinner" style={{ width: 16, height: 16 }} />
-                : 'Connect'}
+                ? <span className="spinner" style={{ width:16, height:16 }}/>
+                : 'Connect'
+              }
             </button>
           )}
         </div>
