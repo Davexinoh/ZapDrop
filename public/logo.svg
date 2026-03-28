@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <!-- Main orange-to-gold gradient -->
+    <linearGradient id="grad" x1="20" y1="10" x2="80" y2="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#FF4D00"/>
+      <stop offset="45%"  stop-color="#FF7A00"/>
+      <stop offset="100%" stop-color="#FFB800"/>
+    </linearGradient>
+
+    <!-- Inner glow gradient -->
+    <radialGradient id="glow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%"   stop-color="#FF8C00" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FF4D00" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Circle bg gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#1a0800"/>
+      <stop offset="100%" stop-color="#0d0400"/>
+    </linearGradient>
+
+    <!-- Outer ring gradient -->
+    <linearGradient id="ring" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#FF6B00" stop-opacity="0.8"/>
+      <stop offset="50%"  stop-color="#FFB800" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#FF4D00" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <filter id="blur-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="inner-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <clipPath id="circle-clip">
+      <circle cx="50" cy="50" r="46"/>
+    </clipPath>
+  </defs>
+
+  <!-- ── Outer ring ── -->
+  <circle cx="50" cy="50" r="48" fill="none" stroke="url(#ring)" stroke-width="1.2" opacity="0.7"/>
+
+  <!-- ── Circle background ── -->
+  <circle cx="50" cy="50" r="46" fill="url(#bg)"/>
+
+  <!-- ── Inner radial glow ── -->
+  <circle cx="50" cy="50" r="46" fill="url(#glow)" clip-path="url(#circle-clip)"/>
+
+  <!-- ── Flame shape (outer) — wide organic flame ── -->
+  <path
+    d="M50 18
+       C50 18 62 26 66 36
+       C70 46 67 52 64 56
+       C61 60 58 61 58 61
+       C62 55 62 48 58 42
+       C56 38 54 36 54 36
+       C54 44 51 50 48 55
+       C45 60 43 63 43 68
+       C40 63 39 57 40 51
+       C38 55 37 60 38 65
+       C35 60 34 53 36 46
+       C32 52 31 59 33 65
+       C29 59 28 50 31 42
+       C34 34 40 27 50 18Z"
+    fill="url(#grad)"
+    filter="url(#blur-glow)"
+    opacity="0.9"
+  />
+
+  <!-- ── Flame shape (inner) — tighter, brighter core ── -->
+  <path
+    d="M50 26
+       C50 26 58 33 61 41
+       C64 49 61 54 58 58
+       C57 52 55 47 52 43
+       C52 50 50 55 48 59
+       C46 55 45 49 46 43
+       C43 49 42 55 43 60
+       C40 55 39 48 41 42
+       C44 35 48 29 50 26Z"
+    fill="url(#grad)"
+    filter="url(#inner-glow)"
+    opacity="0.95"
+  />
+
+  <!-- ── Lightning bolt — cuts through flame ── -->
+  <path
+    d="M54 32 L44 52 L51 52 L46 72 L62 48 L54 48 Z"
+    fill="white"
+    opacity="0.95"
+    filter="url(#inner-glow)"
+  />
+
+  <!-- ── Lightning bolt — slightly smaller, gold tint ── -->
+  <path
+    d="M54 34 L45.5 52 L51.5 52 L47.5 69 L60.5 49 L53.5 49 Z"
+    fill="#FFE4A0"
+    opacity="0.5"
+  />
+
+  <!-- ── Subtle sparkle top ── -->
+  <circle cx="50" cy="20" r="1.2" fill="#FFD080" opacity="0.8"/>
+  <circle cx="44" cy="23" r="0.7" fill="#FFB800" opacity="0.6"/>
+  <circle cx="56" cy="22" r="0.9" fill="#FF8C00" opacity="0.6"/>
+</svg>
