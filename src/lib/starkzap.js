@@ -1,12 +1,24 @@
 /**
  * lib/starkzap.js
  * ─────────────────────────────────────────────────────────────────
- * Single source of truth for Starkzap SDK.
- * Every file in the app imports from here — never from 'starkzap' directly.
- * This ensures the SDK is initialised exactly once.
+ * Single source of truth for Starkzap v1.0.0 SDK.
+ *
+ * v1 API (correct):
+ *   sdk.onboard({ strategy, account, deploy })  → { wallet }
+ *   wallet.transfer(token, [{ to, amount }])     → tx
+ *   await tx.wait()
+ *   Amount.parse("10", STRK)
+ *   fromAddress("0x...")
  */
 
-import { StarkZap, sepoliaTokens } from 'starkzap'
+import {
+  StarkZap,
+  StarkSigner,
+  OnboardStrategy,
+  Amount,
+  fromAddress,
+  sepoliaTokens,
+} from 'starkzap'
 
 const NETWORK = import.meta.env.VITE_NETWORK || 'sepolia'
 
@@ -14,16 +26,18 @@ let _sdk = null
 
 export function getSDK() {
   if (_sdk) return _sdk
-  _sdk = new StarkZap({
-    network:    NETWORK,
-    privyAppId: import.meta.env.VITE_PRIVY_APP_ID,
-  })
+  _sdk = new StarkZap({ network: NETWORK })
   return _sdk
 }
 
-// Token constants — never hardcode token addresses elsewhere
-export { sepoliaTokens }
-export const STRK_TOKEN = sepoliaTokens?.STRK ?? 'STRK'
+// Re-export everything components need
+export {
+  StarkSigner,
+  OnboardStrategy,
+  Amount,
+  fromAddress,
+  sepoliaTokens,
+}
 
-// Starkscan explorer base
-export const EXPLORER = 'https://sepolia.starkscan.co'
+export const STRK        = sepoliaTokens.STRK
+export const EXPLORER    = 'https://sepolia.starkscan.co'
