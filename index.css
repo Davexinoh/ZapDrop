@@ -1,0 +1,352 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ZapDrop — Global Styles
+   Design language: Starknet — deep obsidian, amber-orange glow,
+   glassmorph cards, sharp Syne display, Cabinet Grotesk body.
+   Every hex value mirrors the Starkzap bounty card aesthetic.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Tokens ──────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds — Starknet's layered obsidian */
+  --bg-void:      #060609;
+  --bg-base:      #09090f;
+  --bg-surface:   #0e0e18;
+  --bg-raised:    #13131f;
+  --bg-overlay:   #18182a;
+  --bg-hover:     #1e1e32;
+
+  /* Orange brand — pulled directly from Starkzap bounty visuals */
+  --orange:       #FF5C1A;
+  --orange-bright:#FF7A35;
+  --orange-muted: #b83d0e;
+  --orange-glow:  rgba(255, 92, 26, 0.15);
+  --orange-glow-lg: rgba(255, 92, 26, 0.07);
+
+  /* Text */
+  --text-100:    #FFFFFF;
+  --text-200:    #E8E8F0;
+  --text-300:    #9898B8;
+  --text-400:    #606078;
+  --text-500:    #3a3a52;
+
+  /* Borders */
+  --border-subtle:  rgba(255, 255, 255, 0.05);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-strong:  rgba(255, 255, 255, 0.14);
+  --border-orange:  rgba(255, 92, 26, 0.30);
+  --border-orange-bright: rgba(255, 92, 26, 0.55);
+
+  /* Typography */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'Cabinet Grotesk', sans-serif;
+
+  /* Radius */
+  --r-xs:   6px;
+  --r-sm:   10px;
+  --r-md:   16px;
+  --r-lg:   22px;
+  --r-xl:   30px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:     0 4px 20px rgba(0,0,0,0.5);
+  --shadow-card:   0 2px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.04) inset;
+  --shadow-glow:   0 0 40px rgba(255, 92, 26, 0.22), 0 0 80px rgba(255, 92, 26, 0.08);
+  --shadow-btn:    0 4px 24px rgba(255, 92, 26, 0.45);
+  --shadow-btn-lg: 0 6px 40px rgba(255, 92, 26, 0.60);
+}
+
+/* ─── Reset ───────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-200);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  /* Subtle grain — same texture Starknet uses */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* ─── Typography ──────────────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--text-100);
+}
+
+p { color: var(--text-300); line-height: 1.7; }
+a { color: var(--orange); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--orange-bright); }
+button { font-family: var(--font-body); cursor: pointer; border: none; outline: none; }
+input, select { font-family: var(--font-body); outline: none; }
+
+/* ─── Page-level ambient glow ─────────────────────────────────────── */
+/* Replicates the Starkzap bounty card corner leak effect */
+.ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.ambient::before {
+  content: '';
+  position: absolute;
+  top: -300px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(255,92,26,0.10) 0%, transparent 65%);
+  animation: glowDrift 12s ease-in-out infinite alternate;
+}
+.ambient::after {
+  content: '';
+  position: absolute;
+  bottom: -250px; left: -150px;
+  width: 550px; height: 550px;
+  background: radial-gradient(circle, rgba(255,122,53,0.07) 0%, transparent 65%);
+  animation: glowDrift 9s ease-in-out infinite alternate-reverse;
+}
+
+/* ─── Grid dot bg — Starknet.io signature ────────────────────────── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* ─── Card ────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  /* Top-edge highlight — glass feel */
+  content: '';
+  position: absolute;
+  top: 0; left: 16px; right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+.card-glow {
+  border-color: var(--border-orange);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  padding: 13px 26px;
+  border-radius: var(--r-full);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Primary — orange gradient, Starknet CTA style */
+.btn-primary {
+  background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+  color: #fff;
+  box-shadow: var(--shadow-btn);
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.btn-primary:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-lg);
+}
+.btn-primary:not(:disabled):active { transform: translateY(0); }
+
+/* Ghost */
+.btn-ghost {
+  background: var(--bg-raised);
+  color: var(--text-300);
+  border: 1px solid var(--border-default);
+}
+.btn-ghost:not(:disabled):hover {
+  border-color: var(--border-orange);
+  color: var(--text-200);
+  background: var(--bg-overlay);
+}
+
+/* Outline orange */
+.btn-outline {
+  background: transparent;
+  color: var(--orange);
+  border: 1px solid var(--border-orange);
+}
+.btn-outline:not(:disabled):hover {
+  background: var(--orange-glow);
+  border-color: var(--border-orange-bright);
+}
+
+/* ─── Input ───────────────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-md);
+  padding: 14px 18px;
+  color: var(--text-100);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input::placeholder { color: var(--text-500); }
+.input:focus {
+  border-color: var(--border-orange);
+  box-shadow: 0 0 0 3px rgba(255,92,26,0.12);
+}
+
+/* ─── Badge ───────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: var(--r-full);
+  font-size: 0.72rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.badge-orange {
+  background: var(--orange-glow);
+  color: var(--orange-bright);
+  border: 1px solid var(--border-orange);
+}
+.badge-green {
+  background: rgba(52,211,153,0.08);
+  color: #34d399;
+  border: 1px solid rgba(52,211,153,0.2);
+}
+.badge-muted {
+  background: var(--bg-raised);
+  color: var(--text-400);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ─── Label ───────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-400);
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* ─── Divider ─────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border-subtle);
+  width: 100%;
+}
+
+/* ─── Spinner ─────────────────────────────────────────────────────── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ─── Layout ──────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--bg-overlay); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--orange-muted); }
+
+/* ─── Selection ───────────────────────────────────────────────────── */
+::selection { background: rgba(255,92,26,0.25); color: var(--text-100); }
+
+/* ─── Keyframes ───────────────────────────────────────────────────── */
+@keyframes spin       { to { transform: rotate(360deg); } }
+@keyframes glowDrift  { 0% { opacity:.6; transform:scale(1) } 100% { opacity:1; transform:scale(1.2) } }
+@keyframes fadeUp     { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:translateY(0) } }
+@keyframes fadeIn     { from { opacity:0 } to { opacity:1 } }
+@keyframes slideUp    { from { opacity:0; transform:translateY(40px) } to { opacity:1; transform:translateY(0) } }
+@keyframes zapPulse   { 0%,100% { box-shadow:var(--shadow-btn) } 50% { box-shadow:var(--shadow-btn-lg) } }
+@keyframes confetti   { 0% { transform:translateY(-10px) rotate(0deg); opacity:1 } 100% { transform:translateY(105vh) rotate(720deg); opacity:0 } }
+@keyframes checkmark  { 0% { stroke-dashoffset:50 } 100% { stroke-dashoffset:0 } }
+@keyframes scaleIn    { from { opacity:0; transform:scale(0.92) } to { opacity:1; transform:scale(1) } }
+
+.anim-fade-up  { animation: fadeUp  0.5s ease both; }
+.anim-fade-in  { animation: fadeIn  0.4s ease both; }
+.anim-slide-up { animation: slideUp 0.6s ease both; }
+.anim-scale-in { animation: scaleIn 0.4s ease both; }
+
+/* Staggered children */
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 80ms; }
+.stagger > *:nth-child(3) { animation-delay: 160ms; }
+.stagger > *:nth-child(4) { animation-delay: 240ms; }
+.stagger > *:nth-child(5) { animation-delay: 320ms; }
