@@ -1,24 +1,36 @@
 /**
  * hooks/useWallet.js
  * ─────────────────────────────────────────────────────────────────
- * Wraps Starkzap social login (Privy).
- * Returns address, login, logout, isConnected, isLoading, error.
+ * Starkzap v1 wallet onboarding via Cartridge Controller.
+ * Cartridge = social login (Google/email/passkey) fully client-side.
+ * No server needed. No seed phrase exposed.
+ *
+ * Returns { wallet, address, isConnected, isLoading, error, login, logout }
  */
 
-import { useState, useCallback } from 'react'
-import { getSDK } from '../lib/starkzap'
+import { useState, useCallback, useRef } from 'react'
+import { getSDK, OnboardStrategy } from '../lib/starkzap'
 
 export function useWallet() {
   const [address,   setAddress]   = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error,     setError]     = useState(null)
+  const walletRef                 = useRef(null)
 
   const login = useCallback(async () => {
     setIsLoading(true)
     setError(null)
     try {
-      const sdk    = getSDK()
-      const wallet = await sdk.login()   // Privy social login modal
+      const sdk = getSDK()
+
+      // Cartridge Controller — fully client-side social login
+      // Opens Cartridge popup → user signs in with Google/email/passkey
+      const { wallet } = await sdk.onboard({
+        strategy: OnboardStrategy.Cartridge,
+        deploy:   'if_needed',
+      })
+
+      walletRef.current = wallet
       setAddress(wallet.address)
       return wallet
     } catch (err) {
@@ -30,16 +42,14 @@ export function useWallet() {
     }
   }, [])
 
-  const logout = useCallback(async () => {
-    try {
-      await getSDK().logout()
-      setAddress(null)
-    } catch (err) {
-      console.error('[useWallet] logout:', err)
-    }
+  const logout = useCallback(() => {
+    walletRef.current = null
+    setAddress(null)
+    setError(null)
   }, [])
 
   return {
+    wallet:      walletRef.current,
     address,
     isConnected: Boolean(address),
     isLoading,
