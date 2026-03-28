@@ -69,7 +69,7 @@ function ErrorBanner({ msg }) {
 /* ── Main ──────────────────────────────────────────────────────── */
 export default function SendPage() {
   const {
-    address, isConnected,
+    wallet, address, isConnected,
     login, isLoading: walletLoading, error: walletError,
   } = useWallet()
 
@@ -97,7 +97,7 @@ export default function SendPage() {
     // Demo uses ETH on Starknet Sepolia as placeholder recipient.
     const DEMO_TO = '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7'
 
-    const hash = await send({ to: DEMO_TO, amount })
+    const hash = await send({ wallet, to: DEMO_TO, amount })
     if (!hash) return
 
     const encoded = encodeZapLink({ sender: address, handle, amount, memeId, txHash: hash })
@@ -483,4 +483,5 @@ export default function SendPage() {
       )}
     </div>
   )
-}
+            }
+      
