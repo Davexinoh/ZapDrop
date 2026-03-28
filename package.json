@@ -14,7 +14,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.22.3",
-    "starkzap": "^2.0.0",
+    "starkzap": "1.0.0",
     "html2canvas": "^1.4.1",
     "framer-motion": "^11.2.10"
   },
